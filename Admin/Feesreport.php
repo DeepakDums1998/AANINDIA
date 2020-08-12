@@ -3,33 +3,45 @@ require_once("../header.php");
 ?>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 <script type="text/javascript">
-    $(document).ready(function(){
-        var year=0;
-  $("#link1").click(function(){
-    alert("Year 1.");
-  });
-  $("#link2").click(function(){
-    alert("Year 2.");
-  });
-  $("#link3").click(function(){
-    alert("Year 3.");
-  });
-  $("#link4").click(function(){
-    alert("Year 4.");
-  });
-  $("#link5").click(function(){
-    alert("Year 5.");
-  });
-});
-        /*var datas = Car_name + "\t" + Company_name + "\t" + Fuel_type + "\t" + Price + "\t" + Description + "\t" + File_Name + "\n";
+    function senddata(y,s)
+    {
+      
         $.ajax({  
             type: 'POST',  
-            url: 'Ajaxsenddata.php', 
-            data: { CarInfo:datas },
+            url: 'ajaxgetfeesdata.php', 
+            data: { year:y,sc_id:s },
             success: function(response) {
-                alert(response);
+                $("#table").empty();
+                $("#table").append(response);  
             }
-        });*/
+        });
+       
+    }
+    $(document).ready(function(){
+   var val= $("#drpsc_id option:selected" ).val();
+    
+  $("#link1").click(function(){
+  
+    senddata(1,val);
+    
+  });
+  $("#link2").click(function(){
+    senddata(2,val);
+  });
+  $("#link3").click(function(){
+    senddata(3,val);
+  });
+  $("#link4").click(function(){
+    senddata(4,val);
+  });
+  $("#link5").click(function(){
+    senddata(5,val);
+  });
+  $("#link0").click(function(){
+    senddata(0,val);
+  });
+});
+       
     
 </script>
 <div id="page-wrapper">
@@ -164,7 +176,7 @@ require_once("../header.php");
                                     <form method="post">
                                    <div class="row">
                                       <div class="col-lg-12" >
-                        <select class="form-control" name="drpyear" style="float: right;">
+                        <select class="form-control" name="drpyear" id="drpsc_id" style="float: right;">
                           <option selected>Select School</option>
                           <?php
                           $sql = "SELECT * FROM school_master";
@@ -262,7 +274,7 @@ if(isset($_POST['btnsearch']))
                   
                    </span>
                      <br>
-                   <a href="?year=1&sc_id=<?php echo $sortkey; ?>" id='link1'><span>View Details</span></a>
+                   <span id='link1'><span>View Details</span></span></a>
                                        
                             
                                         <div class="clearfix"></div>
@@ -303,7 +315,7 @@ if(isset($_POST['btnsearch']))
                
                     </span>
                       <br>
-                    <a href="?year=2&sc_id=<?php echo $sortkey; ?>" id='link2'><span>View Details</span></a>
+                    <span id='link2'><span>View Details</span></span></a>
                                        
 
                                         <div class="clearfix"></div>
@@ -340,7 +352,7 @@ if(isset($_POST['btnsearch']))
                     
                     </span>
                     <br>
-                    <a href="?year=3&sc_id=<?php echo $sortkey; ?>" id='link3' ><span>View Details</span></a>
+                    <span id='link3' ><span>View Details</span></span></a>
                                        
 
                                         <div class="clearfix"></div>
@@ -375,7 +387,7 @@ if(isset($_POST['btnsearch']))
                 
                     </span>
                     <br>
-                    <a href="?year=4&sc_id=<?php echo $sortkey; ?>" id='link4'><span>View Details</span></a>
+                    <span id='link4'><span>View Details</span></span></a>
                                        
 
                                         <div class="clearfix"></div>
@@ -411,7 +423,7 @@ if(isset($_POST['btnsearch']))
 
                     </span>
                     <br>
-                    <a href="?year=5&sc_id=<?php echo $sortkey; ?>" id='link5'><span>View Details</span></a>
+                    <span id='link5'><span>View Details</span></span> </a>
                                        
 
                                         <div class="clearfix"></div>
@@ -449,7 +461,7 @@ if(isset($_POST['btnsearch']))
                     ?>/-
                     <br>
                   </span>
-                  <a href="?year=0&sc_id=<?php echo $sortkey; ?>"><span>View Details</span></a>
+                  <span id='link0'><span>View Details</span></span></a>
                                        
 
                                         <div class="clearfix"></div>
@@ -463,106 +475,9 @@ if(isset($_POST['btnsearch']))
                 
               </div>
     <!-- /.row (nested) -->
+   <div class="row" id="table">
+   </div>
   
-  <?php
-  if(isset($_GET['year']) && isset($_GET['sc_id']))
-  {
-    $sortkey=$_GET['sc_id'];
-    ?>
-     <div class="row">
-                        <div class="col-lg-12">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <b style="color: red;">FEES DETAILS</b>
-                                </div>
-                                <!-- /.panel-heading -->
-                                <div class="panel-body">
-                                    <div class="table-responsive">
-                                        <table class="table table-striped table-bordered table-hover" id="dataTables-example">
-                                            <thead>
-                                                <tr>
-                                                    <th>SR.NO</th>
-                                                    <th>ENROLLMENT NO</th>
-                                                    <th>FULL NAME</th>
-                                                    <th>FORM NO</th>
-                                                    <th>TRANSACTION ID</th>
-                                                    <th>TRANING YEAR</th>
-                                                    <th>AMOUNT</th>
-                                                </tr>
-                                            </thead>
-                                           <tbody>
-                                                <?php
-                                    if($_GET['year']==0)
-                                                    {
-                                                         $sql = "SELECT * FROM `fees_payment` WHERE e_id IN (SELECT e_id from enroll_master WHERE SUBSTR(enrollment_id,4,8) = '{$sortkey}' )and year=(SELECT c_year from year_master where Y_STATUS=1 )";
-                                                    }
-                                                    else
-                                                    {
-
-                              $sql = "SELECT * FROM `fees_payment` WHERE e_id IN (SELECT e_id from enroll_master WHERE SUBSTR(enrollment_id,4,8) = '{$sortkey}' )and year=(SELECT c_year from year_master where Y_STATUS=1 ) and  fees_for_year={$_GET['year']}";
-                          }
-                              $result = $con->query($sql);
-                              $count=1;
-                              while ($row = $result->fetch_assoc()) {
-                             
-                      
-                                                ?>
-                                               <tr>
-                                                <?php
-
-                                                    $getenroll_id="SELECT * FROM enroll_master WHERE e_id={$row['e_id']}";
-                                                    ?>
-                                                <td><?php
-                                                echo $count++;
-                                                ?></td>
-                                                <td>
-                                                        <?php
-                                                        echo $con->query($getenroll_id)->fetch_assoc()['enrollment_id'];
-                                                        ?>
-                                                </td>
-                                                <td>
-                                                        <?php
-                                                        echo $con->query($getenroll_id)->fetch_assoc()['first_name']." ".$con->query($getenroll_id)->fetch_assoc()['middle_name']." ".$con->query($getenroll_id)->fetch_assoc()['last_name'];
-                                                        ?>
-                                                </td>
-                                                <td>
-                                                        <?php
-                                                        echo $con->query($getenroll_id)->fetch_assoc()['form_no'];
-                                                        ?>
-                                                </td>
-                                                <td>
-                                                        <?php
-                                                        echo $row['payment_id'];
-                                                        ?>
-                                                </td>
-                                                <td>
-                                                        <?php
-                                                        echo $row['fees_for_year'];
-                                                        ?>
-                                                </td>
-                                                <td>
-                                                        <?php
-                                                        echo $row['amount'];
-                                                        ?>
-                                                </td>
-                                               </tr>
-                                               <?php
-                                           }
-                                               ?>
-                                           </tbody>
-                                        </table>
-                                    </div>
-                                   
-                                </div>
-                                <!-- /.panel-body -->
-                            </div>
-                            <!-- /.panel -->
-                        </div>
-                        <!-- /.col-lg-12 -->
-                    </div>
-    <?php
-  }
-  ?>
     <?php
  }
 }
