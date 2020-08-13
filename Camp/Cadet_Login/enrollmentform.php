@@ -39,6 +39,8 @@ if(isset($_SESSION["Login_id"]))
 		$year=$con->query($sql)->fetch_assoc()['t_year'];
 		$gettransactionid="SELECT * FROM fees_payment WHERE e_id='{$_SESSION["Login_id"]}' AND fees_for_year='{$year}'";
 		$pdf->Text(150,19,$con->query($gettransactionid)->fetch_assoc()['payment_id']);
+		$pdf->Text(85,13,"RECEIPT NO");
+		$pdf->Text(85,19,$con->query($gettransactionid)->fetch_assoc()['recipt_id']);
 		
 		$pdf->Text(32,63,strtoupper($name));
 		$pdf->SetFontSize(8);
