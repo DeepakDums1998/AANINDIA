@@ -50,10 +50,20 @@ include '../../connection.php';
     });
     });
     </script>
+
+
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+}
+</script>
+
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
   </head>
   <body>
     <div id="wrapper">
-      <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <nav class="navbar navbar-inverse " role="navigation">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
         <span class="sr-only">Toggle navigation</span>
         <span class="icon-bar"></span>
@@ -68,6 +78,7 @@ include '../../connection.php';
             
           ?> | HQ</a>
         </div>
+         <div style="float: right;"   id="google_translate_element"></div>
         <ul class="nav navbar-right navbar-top-links">
           <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -163,4 +174,5 @@ include '../../connection.php';
       </ul>
     </div>
   </div>
+
 </nav>

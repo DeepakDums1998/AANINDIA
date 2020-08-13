@@ -9,7 +9,8 @@ if($res->fetch_assoc()["password"] == NULL)
 }
 ?>
 
-                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+ <div id="google_translate_element"></div>
 <div id="page-wrapper">
 <div class="container-fluid">
 <div class="row">
@@ -46,7 +47,10 @@ if($res->fetch_assoc()["password"] == NULL)
   </tr>
 </tbody>   
 </div>
+
                 </div>
+
+
         <script src="../../Resources/js/jquery.min.js"></script>
         <script src="../../Resources/js/bootstrap.min.js"></script>
         <script src="../../Resources/js/metisMenu.min.js"></script>

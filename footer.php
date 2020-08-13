@@ -1,5 +1,6 @@
 
         </div>
+        
         <script src="../Resources/js/jquery.min.js"></script>
         <script src="../Resources/js/bootstrap.min.js"></script>
         <script src="../Resources/js/metisMenu.min.js"></script>
